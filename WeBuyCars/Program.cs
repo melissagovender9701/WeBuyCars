@@ -1,4 +1,5 @@
 ﻿using System;
+using WeBuyCars.BusinessLogicLayer;
 
 namespace WeBuyCars
 {
@@ -6,7 +7,8 @@ namespace WeBuyCars
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            DisplayLogic.Start();
+            Console.ReadLine();
         }
     }
 }

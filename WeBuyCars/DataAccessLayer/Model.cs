@@ -4,7 +4,15 @@ using System.Text;
 
 namespace WeBuyCars.DataAccessLayer
 {
-    public class Model : Make
+    public class Model
     {
+        public static int ModelId { get; set; }
+        public static string ModelName { get; set; }
+
+        public Model(int id, string modelName)
+        {
+            ModelId = id;
+            ModelName = modelName;
+        }
     }
 }
