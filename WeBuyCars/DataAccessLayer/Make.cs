@@ -6,8 +6,8 @@ namespace WeBuyCars.DataAccessLayer
 {
     public class Make
     {
-        public static int MakeId { get; set; }
-        public static string MakeName { get; set; }
+        public int MakeId { get; set; }
+        public string MakeName { get; set; }
 
         public Make()
         {

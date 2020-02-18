@@ -6,46 +6,39 @@ using WeBuyCars.DataAccessLayer;
 
 namespace WeBuyCars.BusinessLogicLayer
 {
-    public class VehicleLogic
+    public class VehicleLogic : Vehicle
     {
         public static List<Vehicle> VehicleList { get; set; }
-        public static List<Bracket> SmallVehicleMillegeBracket { get; set; }
-        public static List<Bracket> BigVehicleMillegeBracket { get; set; }
-        public static List<Bracket> SmallVehicleYearBracket { get; set; }
-        public static List<Bracket> BigVehicleYearBracket { get; set; }
+        public static List<Bracket> VehicleMillegeBracket { get; set; }
+        public static List<Bracket> AdditionalVehicleMillegeBracket { get; set; }
+        public static List<Bracket> VehicleYearBracket { get; set; }
+        public static List<Bracket> AdditionalVehicleYearBracket { get; set; }
 
-        public VehicleLogic()
+        
+        public VehicleLogic(VehicleType vehicleType, VehicleSpecs specs, int millege, VehicleColour colour, VehicleServiceHistory serviceHistory, double bookValue, int year): base(vehicleType, year,millege,serviceHistory,colour,specs,bookValue)
         {
-            VehicleList = new List<Vehicle>()
-            {
-                new Vehicle(VehicleType.Car, 2012, 160000, VehicleServiceHistory.LowServiceHistory,VehicleColour.Metallic,VehicleSpecs.HighSpec, 200000,2),
-                new Vehicle(VehicleType.Car, 2012, 160000, VehicleServiceHistory.LowServiceHistory,VehicleColour.Metallic,VehicleSpecs.HighSpec, 200000,2),
-                new Vehicle(VehicleType.Car, 2012, 160000, VehicleServiceHistory.LowServiceHistory,VehicleColour.Metallic,VehicleSpecs.HighSpec, 200000,2),
-                new Vehicle(VehicleType.Car, 2012, 160000, VehicleServiceHistory.LowServiceHistory,VehicleColour.Metallic,VehicleSpecs.HighSpec, 200000,2)       
-            };
-
-            SmallVehicleMillegeBracket = new List<Bracket>()
+            VehicleMillegeBracket = new List<Bracket>()
             {
                 new Bracket(int.MinValue, 100000, 0.30),
                 new Bracket(100000, 150000, 0.20),
                 new Bracket(150000, int.MaxValue, 0.15)
             };
 
-            BigVehicleMillegeBracket = new List<Bracket>()
+            AdditionalVehicleMillegeBracket = new List<Bracket>()
             {
                 new Bracket(int.MinValue, 100000, 0.40),
                 new Bracket(100000, 150000, 0.30),
                 new Bracket(150000, int.MaxValue, 0.20)
             };
 
-            SmallVehicleYearBracket = new List<Bracket>()
+            VehicleYearBracket = new List<Bracket>()
             {
                 new Bracket(2011, 2011, 0.10),
                 new Bracket(2012, 2018, 0.20),
                 new Bracket(2019, 2019, 0.30)
             };
 
-            BigVehicleYearBracket = new List<Bracket>()
+            AdditionalVehicleYearBracket = new List<Bracket>()
             {
                 new Bracket(2011, 2011, 0.20),
                 new Bracket(2012, 2018, 0.30),
@@ -53,12 +46,39 @@ namespace WeBuyCars.BusinessLogicLayer
             };
         }
 
-      
+        public double CalculateServiceHistoryCost()
+        {
+            return 0;
+        }
 
+        public double CalculateSpecsCost()
+        {
+            return 0;
+        }
+
+        public double CalculateMillegeCost()
+        {
+            return 0;
+        }
+
+        public double CalculateYearCost()
+        {
+            return 0;
+        }
+
+        public double CalculateColourCost()
+        {
+            return 0;
+        }
+
+        public double CalculateTotalCost()
+        {
+            return VehicleBookValue + CalculateServiceHistoryCost() + CalculateSpecsCost() + CalculateMillegeCost() + CalculateYearCost() + CalculateColourCost();
+        }
 
         public static double GetPriceForSmallVehicleMillege(Vehicle vehicle)
         {
-            foreach (var smallVehicleMillege in SmallVehicleMillegeBracket)
+            foreach (var smallVehicleMillege in VehicleMillegeBracket)
             {
                 if (vehicle.VehicleMillege > smallVehicleMillege.Minimum && vehicle.VehicleMillege <= smallVehicleMillege.Maximum && vehicle.VehicleType.Equals(VehicleType.Car))
                 {
@@ -67,9 +87,10 @@ namespace WeBuyCars.BusinessLogicLayer
             }
             return 0;
         }
+
         public double GetPriceForBigVehicleMillege(Vehicle vehicle)
         {
-            foreach (var bigVehicleMillege in BigVehicleMillegeBracket)
+            foreach (var bigVehicleMillege in AdditionalVehicleMillegeBracket)
             {
                 if (vehicle.VehicleMillege > bigVehicleMillege.Minimum && vehicle.VehicleMillege <= bigVehicleMillege.Maximum && vehicle.VehicleType.Equals(VehicleType.Truck))
                 {
@@ -81,7 +102,7 @@ namespace WeBuyCars.BusinessLogicLayer
 
         public double GetPriceForSmallVehicleYear(Vehicle vehicle)
         {
-            foreach (var smallVehicleYear in SmallVehicleYearBracket)
+            foreach (var smallVehicleYear in VehicleYearBracket)
             {
                 if (Convert.ToInt32(vehicle.VehicleYear) >= smallVehicleYear.Minimum && Convert.ToInt32(vehicle.VehicleYear) <= smallVehicleYear.Maximum && vehicle.VehicleType.Equals(VehicleType.Car))
                 {
@@ -93,7 +114,7 @@ namespace WeBuyCars.BusinessLogicLayer
 
         public double GetPriceForBigVehicleYear(Vehicle vehicle)
         {
-            foreach (var bigVehicleYear in BigVehicleYearBracket)
+            foreach (var bigVehicleYear in AdditionalVehicleYearBracket)
             {
                 if (Convert.ToInt32(vehicle.VehicleYear) >= bigVehicleYear.Minimum && Convert.ToInt32(vehicle.VehicleYear) <= bigVehicleYear.Maximum && vehicle.VehicleType.Equals(VehicleType.Car))
                 {
@@ -103,12 +124,37 @@ namespace WeBuyCars.BusinessLogicLayer
             return 0;
         }
 
-        //public static double GetSellingPrice()
-        //{
-        //    if (VehicleType.Car.Equals(Enum.GetNames(VehicleType)){
+        public static void DisplaySpecs()
+        {
+            Array typeNames;
+            typeNames = Enum.GetNames(typeof(VehicleSpecs));
+            for (int i = 0; i < typeNames.Length; i++)
+            {
+                Console.WriteLine($"({i + 1}) : {typeNames.GetValue(i)}");
+            }
+        }
 
-        //    }
-        //    return 0;
-        //}
+        public static void DisplayColour()
+        {
+            Array typeNames;
+            typeNames = Enum.GetNames(typeof(VehicleColour));
+            for (int i = 0; i < typeNames.Length; i++) 
+            {
+                Console.WriteLine($"({i + 1}) : {typeNames.GetValue(i)}");
+            }
+        }
+
+        public static void DisplayServiceHistory()
+        {
+            Array typeNames;
+            typeNames = Enum.GetNames(typeof(VehicleServiceHistory));
+            for (int i = 0; i < typeNames.Length; i++)
+            {
+                Console.WriteLine($"({i + 1}) : {typeNames.GetValue(i)}");
+            }
+        }
+
+        
+
     }
 }

@@ -25,11 +25,11 @@ namespace WeBuyCars.BusinessLogicLayer
 
         public static string GetMake(int makeId)
         {
-            foreach(var item in MakeList)
+            foreach(var make in MakeList)
             {
-                if (Make.MakeId == makeId)
+                if (make.MakeId == makeId)
                 {
-                    return Make.MakeName;
+                    return make.MakeName;
                 }
             }
             return "";

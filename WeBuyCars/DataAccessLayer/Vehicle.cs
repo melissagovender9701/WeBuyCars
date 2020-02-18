@@ -6,9 +6,9 @@ namespace WeBuyCars.DataAccessLayer
 {
     public enum VehicleType
     {
-        Car=1,
-        Truck=2,
-        Bus=3
+        Car = 1,
+        Truck = 2,
+        Bus = 3
     }
 
     public enum VehicleServiceHistory
@@ -48,9 +48,8 @@ namespace WeBuyCars.DataAccessLayer
         public VehicleColour VehicleColour { get; set; }
         public VehicleSpecs VehicleSpecs { get; set; }
         public double VehicleBookValue { get; set; }
-        public double VehicleSellingPrice { get; set; }
 
-        public Vehicle(VehicleType vehicleType, int vehicleYear, int vehicleMillege, VehicleServiceHistory vehicleServiceHistory, VehicleColour vehicleColour, VehicleSpecs vehicleSpecs, double vehicleBookValue, double vehicleSellingPrice)
+        public Vehicle(VehicleType vehicleType, int vehicleYear, int vehicleMillege, VehicleServiceHistory vehicleServiceHistory, VehicleColour vehicleColour, VehicleSpecs vehicleSpecs, double vehicleBookValue)
         {
             VehicleType = vehicleType;
             VehicleYear = vehicleYear;
@@ -59,7 +58,6 @@ namespace WeBuyCars.DataAccessLayer
             VehicleColour = vehicleColour;
             VehicleSpecs = VehicleSpecs;
             VehicleBookValue = vehicleBookValue;
-            VehicleSellingPrice = vehicleSellingPrice;
         }
     }
 }
