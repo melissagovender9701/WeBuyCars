@@ -6,19 +6,19 @@ namespace WeBuyCars.DataAccessLayer
 {
     public enum VehicleType
     {
-        Car,
-        Truck,
-        Bus
+        Car=1,
+        Truck=2,
+        Bus=3
     }
 
-    public enum SmallVehicleServiceHistory
+    public enum VehicleServiceHistory
     {
         FullServiceHistory = 40,
         PartialServiceHistory = 30,
         LowServiceHistory = 0
     }
 
-    public enum BigVehicleServiceHistory
+    public enum AdditionalVehicleServiceHistory
     {
         FullServiceHistory = 55,
         PartialServiceHistory = 40,
@@ -41,30 +41,21 @@ namespace WeBuyCars.DataAccessLayer
     public class Vehicle
     {
         public VehicleType VehicleType { get; set; }
-        public Make VehicleMake { get; set; }
-        public Model VehicleModel { get; set; }
-        public DateTime VehicleYear { get; set; }
+        public int VehicleYear { get; set; }
         public int VehicleMillege { get; set; }
-        public SmallVehicleServiceHistory SmallVehicleServiceHistory { get; set; }
-        public BigVehicleServiceHistory BigVehicleServiceHistory { get; set; }
+        public VehicleServiceHistory VehicleServiceHistory { get; set; }
+        public AdditionalVehicleServiceHistory AdditionalVehicleServiceHistory { get; set; }
         public VehicleColour VehicleColour { get; set; }
         public VehicleSpecs VehicleSpecs { get; set; }
         public double VehicleBookValue { get; set; }
         public double VehicleSellingPrice { get; set; }
 
-        public Vehicle()
-        {
-
-        }
-        public Vehicle(VehicleType vehicleType, Make vehicleMake, Model vehicleModel, DateTime vehicleYear, int vehicleMillege, SmallVehicleServiceHistory smallVehicleServiceHistory, BigVehicleServiceHistory bigVehicleServiceHistory, VehicleColour vehicleColour, VehicleSpecs vehicleSpecs, double vehicleBookValue, double vehicleSellingPrice)
+        public Vehicle(VehicleType vehicleType, int vehicleYear, int vehicleMillege, VehicleServiceHistory vehicleServiceHistory, VehicleColour vehicleColour, VehicleSpecs vehicleSpecs, double vehicleBookValue, double vehicleSellingPrice)
         {
             VehicleType = vehicleType;
-            VehicleMake = vehicleMake;
-            VehicleModel = vehicleModel;
             VehicleYear = vehicleYear;
             VehicleMillege = vehicleMillege;
-            SmallVehicleServiceHistory = smallVehicleServiceHistory;
-            BigVehicleServiceHistory = bigVehicleServiceHistory;
+            VehicleServiceHistory = vehicleServiceHistory;
             VehicleColour = vehicleColour;
             VehicleSpecs = VehicleSpecs;
             VehicleBookValue = vehicleBookValue;

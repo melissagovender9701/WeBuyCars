@@ -8,11 +8,23 @@ namespace WeBuyCars.DataAccessLayer
     {
         public static int ModelId { get; set; }
         public static string ModelName { get; set; }
+        public static int  MakeId {get;set;}
+        public static string MakeName { get; set; }
 
-        public Model(int id, string modelName)
+
+        public static VehicleType VehicleType { get; set; }
+        public Model(int id, string modelName, int makeId, string makeName, VehicleType vehicleType)
         {
             ModelId = id;
             ModelName = modelName;
+            MakeId = makeId;
+            MakeName = makeName;
+            VehicleType = vehicleType;
+        }
+
+        public static void Display()
+        {
+            Console.WriteLine(ModelId +"-"+ MakeName +"-"+ModelName);
         }
     }
 }

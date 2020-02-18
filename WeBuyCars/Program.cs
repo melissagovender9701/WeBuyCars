@@ -3,7 +3,7 @@ using WeBuyCars.BusinessLogicLayer;
 
 namespace WeBuyCars
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {

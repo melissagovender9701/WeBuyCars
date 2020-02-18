@@ -8,15 +8,22 @@ namespace WeBuyCars.BusinessLogicLayer
 {
     public class VehicleLogic
     {
-        public static List<Vehicle> Vehicle { get; set; }
+        public static List<Vehicle> VehicleList { get; set; }
         public static List<Bracket> SmallVehicleMillegeBracket { get; set; }
         public static List<Bracket> BigVehicleMillegeBracket { get; set; }
         public static List<Bracket> SmallVehicleYearBracket { get; set; }
         public static List<Bracket> BigVehicleYearBracket { get; set; }
-        public static List<EnumDisplay> VehicleTypeList { get; set; }
 
         public VehicleLogic()
         {
+            VehicleList = new List<Vehicle>()
+            {
+                new Vehicle(VehicleType.Car, 2012, 160000, VehicleServiceHistory.LowServiceHistory,VehicleColour.Metallic,VehicleSpecs.HighSpec, 200000,2),
+                new Vehicle(VehicleType.Car, 2012, 160000, VehicleServiceHistory.LowServiceHistory,VehicleColour.Metallic,VehicleSpecs.HighSpec, 200000,2),
+                new Vehicle(VehicleType.Car, 2012, 160000, VehicleServiceHistory.LowServiceHistory,VehicleColour.Metallic,VehicleSpecs.HighSpec, 200000,2),
+                new Vehicle(VehicleType.Car, 2012, 160000, VehicleServiceHistory.LowServiceHistory,VehicleColour.Metallic,VehicleSpecs.HighSpec, 200000,2)       
+            };
+
             SmallVehicleMillegeBracket = new List<Bracket>()
             {
                 new Bracket(int.MinValue, 100000, 0.30),
@@ -46,55 +53,62 @@ namespace WeBuyCars.BusinessLogicLayer
             };
         }
 
-        public static double GetPriceForSmallVehicleMillege()
+      
+
+
+        public static double GetPriceForSmallVehicleMillege(Vehicle vehicle)
         {
-            var _vehicle = new Vehicle();
             foreach (var smallVehicleMillege in SmallVehicleMillegeBracket)
             {
-                if (_vehicle.VehicleMillege > smallVehicleMillege.Minimum && _vehicle.VehicleMillege <= smallVehicleMillege.Maximum && _vehicle.VehicleType.Equals(VehicleType.Car))
+                if (vehicle.VehicleMillege > smallVehicleMillege.Minimum && vehicle.VehicleMillege <= smallVehicleMillege.Maximum && vehicle.VehicleType.Equals(VehicleType.Car))
                 {
-                    return _vehicle.VehicleBookValue * smallVehicleMillege.Percentage;
+                    return vehicle.VehicleBookValue * smallVehicleMillege.Percentage;
                 }
             }
             return 0;
         }
-        public double GetPriceForBigVehicleMillege()
+        public double GetPriceForBigVehicleMillege(Vehicle vehicle)
         {
-            var _vehicle = new Vehicle();
             foreach (var bigVehicleMillege in BigVehicleMillegeBracket)
             {
-                if (_vehicle.VehicleMillege > bigVehicleMillege.Minimum && _vehicle.VehicleMillege <= bigVehicleMillege.Maximum && _vehicle.VehicleType.Equals(VehicleType.Truck))
+                if (vehicle.VehicleMillege > bigVehicleMillege.Minimum && vehicle.VehicleMillege <= bigVehicleMillege.Maximum && vehicle.VehicleType.Equals(VehicleType.Truck))
                 {
-                    return _vehicle.VehicleBookValue * bigVehicleMillege.Percentage;
+                    return vehicle.VehicleBookValue * bigVehicleMillege.Percentage;
                 }
             }
             return 0;
         }
 
-        public double GetPriceForSmallVehicleYear()
+        public double GetPriceForSmallVehicleYear(Vehicle vehicle)
         {
-            var _vehicle = new Vehicle();
             foreach (var smallVehicleYear in SmallVehicleYearBracket)
             {
-                if (Convert.ToInt32(_vehicle.VehicleYear) >= smallVehicleYear.Minimum && Convert.ToInt32(_vehicle.VehicleYear) <= smallVehicleYear.Maximum && _vehicle.VehicleType.Equals(VehicleType.Car))
+                if (Convert.ToInt32(vehicle.VehicleYear) >= smallVehicleYear.Minimum && Convert.ToInt32(vehicle.VehicleYear) <= smallVehicleYear.Maximum && vehicle.VehicleType.Equals(VehicleType.Car))
                 {
-                    return _vehicle.VehicleBookValue * smallVehicleYear.Percentage;
+                    return vehicle.VehicleBookValue * smallVehicleYear.Percentage;
                 }
             }
             return 0;
         }
 
-        public double GetPriceForBigVehicleYear()
+        public double GetPriceForBigVehicleYear(Vehicle vehicle)
         {
-            var _vehicle = new Vehicle();
             foreach (var bigVehicleYear in BigVehicleYearBracket)
             {
-                if (Convert.ToInt32(_vehicle.VehicleYear) >= bigVehicleYear.Minimum && Convert.ToInt32(_vehicle.VehicleYear) <= bigVehicleYear.Maximum && _vehicle.VehicleType.Equals(VehicleType.Car))
+                if (Convert.ToInt32(vehicle.VehicleYear) >= bigVehicleYear.Minimum && Convert.ToInt32(vehicle.VehicleYear) <= bigVehicleYear.Maximum && vehicle.VehicleType.Equals(VehicleType.Car))
                 {
-                    return _vehicle.VehicleBookValue * bigVehicleYear.Percentage;
+                    return vehicle.VehicleBookValue * bigVehicleYear.Percentage;
                 }
             }
             return 0;
         }
+
+        //public static double GetSellingPrice()
+        //{
+        //    if (VehicleType.Car.Equals(Enum.GetNames(VehicleType)){
+
+        //    }
+        //    return 0;
+        //}
     }
 }
