@@ -8,7 +8,6 @@ namespace WeBuyCars
         static void Main(string[] args)
         {
             DisplayLogic.Start();
-            Console.ReadLine();
         }
     }
 }

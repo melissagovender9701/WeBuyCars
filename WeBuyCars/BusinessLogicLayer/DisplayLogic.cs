@@ -8,15 +8,23 @@ namespace WeBuyCars.BusinessLogicLayer
 {
     public class DisplayLogic
     {
-        private static int _vehicleType = 0;
-        private static int _vehicleMake = 0;
-        private static int _vehicleModel = 0;
-        private static int _vehicleMillege = 0;
-        private static int _vehicleSpec = 0;
-        private static int _vehicleColour = 0;
-        private static int _vehicleServiceHistory = 0;
-        private static int _vehicleYear = 0;
-        private static double _vehicleBookValue = 0;
+        private static string _vehicleType = "";
+        private static string _vehicleMake = "";
+        private static string _vehicleModel = "";
+        private static string _vehicleMillege = "";
+        private static string _vehicleSpec = "";
+        private static string _vehicleColour = "";
+        private static string _vehicleServiceHistory = "";
+        private static string _vehicleYear = "";
+        private static string _vehicleBookValue = "";
+        private static int value = 0;
+
+        private static Array VehicleTypesNames;
+        private static Array vehicleSpecsNames;
+        private static Array TypeColoursNames;
+        private static Array TypeServiceHistoryNames;
+
+
 
         public static void Start()
         {
@@ -30,108 +38,140 @@ namespace WeBuyCars.BusinessLogicLayer
             GetVehicleServiceHistory();
             GetVehiclYear();
             GetBookValue();
-            // vehicle = new VehicleLogic(_vehicleType, _vehicleSpec, _vehicleMillege, _vehicleColour, _vehicleServiceHistory-_vehicleBookValue, _vehicleYear);
+            
+
+            var vehicle = new Vehicle((VehicleType)Enum.Parse(typeof(VehicleType), Convert.ToInt32(_vehicleType).ToString()), Convert.ToInt32(_vehicleYear), Convert.ToInt32(_vehicleMillege), (VehicleServiceHistory)Enum.Parse(typeof(VehicleServiceHistory), Convert.ToInt32(_vehicleServiceHistory).ToString()), (VehicleColour)Enum.Parse(typeof(VehicleColour), Convert.ToInt32(_vehicleColour).ToString()), (VehicleSpecs)Enum.Parse(typeof(VehicleSpecs), Convert.ToInt32(_vehicleSpec).ToString()), Convert.ToDouble(_vehicleBookValue));
+            var vehicleLogic = new VehicleLogic();
+            Console.WriteLine("\nTotal Cost :" + VehicleLogic.CalculateTotalCost(vehicle));
+            Console.ReadKey();
+
         }
 
         public static void GetVehicleTypes()
         {
-            ModelLogic.GetVehicleType();
-            var _vehicleId = Console.ReadLine();
-            while (!int.TryParse(_vehicleId, out _vehicleType))
+            Console.WriteLine("\nWhat is the vehicle type?\nPlease enter the code below:");
+            VehicleTypesNames = Enum.GetNames(typeof(VehicleType));
+            for (int i = 0; i < VehicleTypesNames.Length; i++)
+            {
+                Console.WriteLine($"({i + 1}) : {VehicleTypesNames.GetValue(i)}");
+            }
+            _vehicleType = Console.ReadLine();
+            while (!int.TryParse(_vehicleType, out value) || Convert.ToInt32(_vehicleType) > Enum.GetValues(typeof(VehicleType)).Length || String.IsNullOrEmpty(_vehicleType))
             {
                 Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
-                _vehicleId = Console.ReadLine();
+                _vehicleType = Console.ReadLine();
             }
         }
 
         public static void GetVehicleMakes()
         {
-            ModelLogic.GetMakeFromVehicleType(_vehicleType);
-            var _makeId = Console.ReadLine();
-            while (!int.TryParse(_makeId, out _vehicleMake))
+            ModelLogic.GetMakeFromVehicleType(Convert.ToInt32(_vehicleType));
+            _vehicleMake = Console.ReadLine();
+            while (!int.TryParse(_vehicleMake, out value) || Convert.ToInt32(_vehicleMake) > MakeLogic.MakeList.Count || String.IsNullOrEmpty(_vehicleMake))
             {
                 Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
-                _makeId = Console.ReadLine();
+                _vehicleMake = Console.ReadLine();
             }
         }
 
         public static void GetVehicleModels()
         {
-            ModelLogic.GetModelsFromMake(_vehicleType, _vehicleMake);
-            var _modelId = Console.ReadLine();
-            while (!int.TryParse(_modelId, out _vehicleModel))
+            ModelLogic.GetModelsFromMake(Convert.ToInt32(_vehicleType), Convert.ToInt32(_vehicleMake));
+            _vehicleModel = Console.ReadLine();
+            foreach(var list in ModelLogic.ModelList)
             {
-                Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
-                _modelId = Console.ReadLine();
+                while (!int.TryParse(_vehicleModel, out value) || String.IsNullOrEmpty(_vehicleMake))
+                {
+                    Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
+                    _vehicleModel = Console.ReadLine();
+                }
             }
+           
         }
 
         public static void GetVehicleMillege()
         {
             Console.WriteLine("\nEnter the Millege of the vehicle: ");
-            var _millege = Console.ReadLine();
-            while(!int.TryParse(_millege, out _vehicleMillege))
-            {
-                Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
-                _millege = Console.ReadLine();
-            }
+            _vehicleMillege = Console.ReadLine();
+                while (!int.TryParse(_vehicleMillege, out value) || Convert.ToInt32(_vehicleMillege) > 200000  || Convert.ToInt32(_vehicleMillege) < 100 || String.IsNullOrEmpty(_vehicleMake))
+                {
+                    Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
+                    _vehicleMillege = Console.ReadLine();
+                }
         }
 
         public static void GetVehicleSpecs()
         {
             Console.WriteLine("\nWhat is the spec of the vehicle?\nPlease enter the code below:");
-            VehicleLogic.DisplaySpecs();
-            var _specs = Console.ReadLine();
-            while(!int.TryParse(_specs, out _vehicleSpec))
+            vehicleSpecsNames = Enum.GetNames(typeof(VehicleSpecs));
+            for (int i = 0; i < vehicleSpecsNames.Length; i++)
+            {
+                Console.WriteLine($"({i + 1}) : {vehicleSpecsNames.GetValue(i)}");
+            }
+
+            _vehicleSpec = Console.ReadLine();
+            while (!int.TryParse(_vehicleSpec, out value) || Convert.ToInt32(_vehicleSpec) > Enum.GetValues(typeof(VehicleSpecs)).Length || String.IsNullOrEmpty(_vehicleSpec))
             {
                 Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
-                _specs = Console.ReadLine();
+                _vehicleSpec = Console.ReadLine();
             }
         }
 
         public static void GetVehicleColour()
         {
             Console.WriteLine($"\nWhat is the colour of the vehicle?\nPlease enter the code below:");
-            VehicleLogic.DisplayColour();
-            var _colour = Console.ReadLine();
-            while (!int.TryParse(_colour, out _vehicleColour))
+
+               
+            TypeColoursNames = Enum.GetNames(typeof(VehicleColour));
+                for (int i = 0; i < TypeColoursNames.Length; i++)
+                {
+                    Console.WriteLine($"({i + 1}) : {TypeColoursNames.GetValue(i)}");
+                }
+
+            _vehicleColour = Console.ReadLine();
+            while (!int.TryParse(_vehicleColour, out value) || Convert.ToInt32(_vehicleColour) > Enum.GetValues(typeof(VehicleColour)).Length || String.IsNullOrEmpty(_vehicleColour))
             {
                 Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
-                _colour = Console.ReadLine();
+                _vehicleColour = Console.ReadLine();
             }
         }
 
         public static void GetVehicleServiceHistory()
         {
             Console.WriteLine($"\nWhat is the type of service history?\nPlease enter the code below:");
-            VehicleLogic.DisplayServiceHistory();
-            var _serviceHistory = Console.ReadLine();
-            while (!int.TryParse(_serviceHistory, out _vehicleServiceHistory))
+            TypeServiceHistoryNames = Enum.GetNames(typeof(VehicleServiceHistory));
+                for (int i = 0; i < TypeServiceHistoryNames.Length; i++)
+                {
+                    Console.WriteLine($"({i + 1}) : {TypeServiceHistoryNames.GetValue(i)}");
+                }
+            _vehicleServiceHistory = Console.ReadLine();
+            while (!int.TryParse(_vehicleServiceHistory, out value) || Convert.ToInt32(_vehicleServiceHistory) > Enum.GetValues(typeof(VehicleServiceHistory)).Length || String.IsNullOrEmpty(_vehicleServiceHistory))
             {
                 Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
-                _serviceHistory = Console.ReadLine();
+                _vehicleServiceHistory = Console.ReadLine();
             }
         }
 
         public static void GetVehiclYear()
         {
             Console.WriteLine("\nEnter the year of the vehicle: ");
-            var _year = Console.ReadLine();
-            while (!int.TryParse(_year, out _vehicleYear))
+            _vehicleYear = Console.ReadLine();
+            while (!int.TryParse(_vehicleYear, out value) || Convert.ToInt32(_vehicleYear) > 2020 || Convert.ToInt32(_vehicleYear) < 1800 || String.IsNullOrEmpty(_vehicleYear))
             {
                 Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
-                _year = Console.ReadLine();
+                _vehicleYear = Console.ReadLine();
             }
         }
 
         public static void GetBookValue()
         {
+            double value;
             Console.WriteLine("\nEnter the book value of the vehicle: ");
-            var _bookValue = Console.ReadLine();
-            while (!double.TryParse(_bookValue, out _vehicleBookValue))
+            _vehicleBookValue = Console.ReadLine();
+            while (!double.TryParse(_vehicleBookValue, out value))
             {
                 Console.WriteLine("Oopsey! Wrong input, please could you enter that again?");
-                _bookValue = Console.ReadLine();
+                _vehicleBookValue = Console.ReadLine();
             }
         }
     }

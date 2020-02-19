@@ -27,17 +27,7 @@ namespace WeBuyCars.BusinessLogicLayer
             };
             return ModelList;
         }
-        public static void GetVehicleType()
-        {
-            Array typeNames;
-
-            Console.WriteLine("\nWhat is the vehicle type?\nPlease enter the code below:");
-            typeNames = Enum.GetNames(typeof(VehicleType));
-            for (int i = 0; i < typeNames.Length; i++)
-            {
-                Console.WriteLine($"({i + 1}) : {typeNames.GetValue(i)}");
-            }
-        }
+        
 
         public static void GetMakeFromVehicleType(int vehicleType)
         {

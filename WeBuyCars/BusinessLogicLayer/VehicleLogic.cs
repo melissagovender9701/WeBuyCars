@@ -6,7 +6,7 @@ using WeBuyCars.DataAccessLayer;
 
 namespace WeBuyCars.BusinessLogicLayer
 {
-    public class VehicleLogic : Vehicle
+    public class VehicleLogic
     {
         public static List<Vehicle> VehicleList { get; set; }
         public static List<Bracket> VehicleMillegeBracket { get; set; }
@@ -15,7 +15,7 @@ namespace WeBuyCars.BusinessLogicLayer
         public static List<Bracket> AdditionalVehicleYearBracket { get; set; }
 
         
-        public VehicleLogic(VehicleType vehicleType, VehicleSpecs specs, int millege, VehicleColour colour, VehicleServiceHistory serviceHistory, double bookValue, int year): base(vehicleType, year,millege,serviceHistory,colour,specs,bookValue)
+        public VehicleLogic()
         {
             VehicleMillegeBracket = new List<Bracket>()
             {
@@ -33,47 +33,101 @@ namespace WeBuyCars.BusinessLogicLayer
 
             VehicleYearBracket = new List<Bracket>()
             {
-                new Bracket(2011, 2011, 0.10),
+                new Bracket(1900, 2011, 0.10),
                 new Bracket(2012, 2018, 0.20),
                 new Bracket(2019, 2019, 0.30)
             };
 
             AdditionalVehicleYearBracket = new List<Bracket>()
             {
-                new Bracket(2011, 2011, 0.20),
+                new Bracket(1900, 2011, 0.20),
                 new Bracket(2012, 2018, 0.30),
                 new Bracket(2019, 2019, 0.40)
             };
         }
 
-        public double CalculateServiceHistoryCost()
+        public static  double CalculateServiceHistoryCost(Vehicle vehicle)
         {
+           //Array typeValues;
+            //typeValues = Enum.GetValues(typeof(VehicleServiceHistory));
+            foreach (VehicleServiceHistory serviceHistory in Enum.GetValues(typeof(VehicleServiceHistory)))
+            {
+                if (vehicle.Equals((int)serviceHistory))
+                {
+                    Console.WriteLine("yes");
+                    return vehicle.VehicleBookValue * ((int)serviceHistory / 100);
+                }
+            }
             return 0;
         }
 
-        public double CalculateSpecsCost()
+        public static double CalculateSpecsCost(Vehicle vehicle)
         {
+            Array typeValues;
+            typeValues = Enum.GetValues(typeof(VehicleSpecs));
+            foreach (var vehicleSpecs in typeValues)
+            {
+                if (vehicle.Equals(vehicleSpecs))
+                {
+                    return vehicle.VehicleBookValue * (Convert.ToInt32(Enum.GetValues(typeof(VehicleSpecs))) / 100);
+                }
+            }
             return 0;
         }
 
-        public double CalculateMillegeCost()
+        public static double CalculateMillegeCost(Vehicle vehicle)
         {
+            foreach (var millegeBracket in VehicleLogic.VehicleMillegeBracket)
+            {
+                if (vehicle.VehicleMillege >= millegeBracket.Minimum && vehicle.VehicleMillege < millegeBracket.Maximum)
+                {
+                    foreach (var item in VehicleLogic.AdditionalVehicleMillegeBracket)
+                    {
+                        if (item.Maximum == millegeBracket.Maximum && item.Maximum.Equals(vehicle.VehicleType))
+                        {
+                            return millegeBracket.Percentage + millegeBracket.Percentage * item.Maximum;
+                        }
+                    }
+                }
+            }
             return 0;
         }
 
-        public double CalculateYearCost()
+        public static double CalculateYearCost(Vehicle vehicle)
         {
+            foreach (var yearBracket in VehicleLogic.VehicleYearBracket)
+            {
+                if (vehicle.VehicleYear >= yearBracket.Maximum && vehicle.VehicleYear < yearBracket.Minimum)
+                {
+                    foreach (var additionalYearBracket in VehicleLogic.AdditionalVehicleYearBracket)
+                    {
+                        if (yearBracket.Maximum == additionalYearBracket.Maximum && additionalYearBracket.Minimum.Equals(vehicle.VehicleType))
+                        {
+                            return (yearBracket.Percentage) + yearBracket.Percentage * additionalYearBracket.Maximum;
+                        }
+                    }
+                }
+            }
             return 0;
         }
 
-        public double CalculateColourCost()
+        public static double CalculateColourCost(Vehicle vehicle)
         {
+            Array typeValues;
+            typeValues = Enum.GetValues(typeof(VehicleColour));
+            foreach (var vehicleColour in typeValues)
+            {
+                if (vehicleColour.Equals(vehicle.VehicleColour))
+                {
+                    return vehicle.VehicleBookValue * (Convert.ToInt32(Enum.GetValues(typeof(VehicleColour))) / 100);
+                }
+            }
             return 0;
         }
 
-        public double CalculateTotalCost()
+        public static double CalculateTotalCost(Vehicle vehicle)
         {
-            return VehicleBookValue + CalculateServiceHistoryCost() + CalculateSpecsCost() + CalculateMillegeCost() + CalculateYearCost() + CalculateColourCost();
+            return vehicle.VehicleBookValue + CalculateServiceHistoryCost(vehicle) + CalculateSpecsCost(vehicle) + CalculateMillegeCost(vehicle) + CalculateYearCost(vehicle) + CalculateColourCost(vehicle);
         }
 
         public static double GetPriceForSmallVehicleMillege(Vehicle vehicle)
@@ -124,35 +178,10 @@ namespace WeBuyCars.BusinessLogicLayer
             return 0;
         }
 
-        public static void DisplaySpecs()
-        {
-            Array typeNames;
-            typeNames = Enum.GetNames(typeof(VehicleSpecs));
-            for (int i = 0; i < typeNames.Length; i++)
-            {
-                Console.WriteLine($"({i + 1}) : {typeNames.GetValue(i)}");
-            }
-        }
 
-        public static void DisplayColour()
-        {
-            Array typeNames;
-            typeNames = Enum.GetNames(typeof(VehicleColour));
-            for (int i = 0; i < typeNames.Length; i++) 
-            {
-                Console.WriteLine($"({i + 1}) : {typeNames.GetValue(i)}");
-            }
-        }
 
-        public static void DisplayServiceHistory()
-        {
-            Array typeNames;
-            typeNames = Enum.GetNames(typeof(VehicleServiceHistory));
-            for (int i = 0; i < typeNames.Length; i++)
-            {
-                Console.WriteLine($"({i + 1}) : {typeNames.GetValue(i)}");
-            }
-        }
+
+
 
         
 
